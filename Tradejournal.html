@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Binance Trade Journal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .nav-item-active { border-bottom: 2px solid #FCD34D; color: #FCD34D; }
+        .nav-item { border-bottom: 2px solid transparent; }
+        .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <div id="app" class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="logo"><a href="Tradejournal.html">Refat</a></div>
+        <div>
+            <a href="index.html">Go Back</a>
+        </div>
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-white">Beginner's Binance Trade Journal</h1>
+            <p class="text-gray-400 mt-2">Track, Analyze, and Improve Your Spot Trading Performance.</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-gray-700 mb-8" role="tablist" aria-label="Journal sections">
+            <button data-target="dashboard" role="tab" aria-selected="true" aria-controls="dashboard" tabindex="0" class="nav-item nav-item-active text-sm sm:text-base font-semibold py-3 px-4 sm:px-6 cursor-pointer">Dashboard</button>
+            <button data-target="trade-log" role="tab" aria-selected="false" aria-controls="trade-log" tabindex="-1" class="nav-item text-sm sm:text-base font-semibold py-3 px-4 sm:px-6 cursor-pointer text-gray-400 hover:text-white">Trade Log</button>
+            <button data-target="passive-income" role="tab" aria-selected="false" aria-controls="passive-income" tabindex="-1" class="nav-item text-sm sm:text-base font-semibold py-3 px-4 sm:px-6 cursor-pointer text-gray-400 hover:text-white">Simple Earn</button>
+            <button data-target="campaigns" role="tab" aria-selected="false" aria-controls="campaigns" tabindex="-1" class="nav-item text-sm sm:text-base font-semibold py-3 px-4 sm:px-6 cursor-pointer text-gray-400 hover:text-white">Campaigns</button>
+        </nav>
+
+        <main>
+            <section id="dashboard" class="content-section">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-white mb-1">Performance Overview</h2>
+                    <p class="text-gray-400">This dashboard provides a visual summary of your trading results. Use these insights to identify patterns and refine your strategy.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                    <div class="bg-gray-800 p-5 rounded-lg"><h3 class="text-sm font-medium text-gray-400">Total Net P/L (USDT)</h3><p id="metric-net-pl" class="text-2xl font-semibold mt-1"></p></div>
+                    <div class="bg-gray-800 p-5 rounded-lg"><h3 class="text-sm font-medium text-gray-400">Win Rate</h3><p id="metric-win-rate" class="text-2xl font-semibold mt-1"></p></div>
+                    <div class="bg-gray-800 p-5 rounded-lg"><h3 class="text-sm font-medium text-gray-400">Profit Factor</h3><p id="metric-profit-factor" class="text-2xl font-semibold mt-1"></p></div>
+                    <div class="bg-gray-800 p-5 rounded-lg"><h3 class="text-sm font-medium text-gray-400">Total Trades</h3><p id="metric-total-trades" class="text-2xl font-semibold mt-1"></p></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-center">Win / Loss Breakdown</h3>
+                        <div class="chart-container h-64 md:h-80"><canvas id="winLossChart"></canvas></div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-center">Net P/L by Pair (USDT)</h3>
+                        <div class="chart-container h-64 md:h-80"><canvas id="pnlByPairChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="trade-log" class="content-section hidden">
+                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-semibold text-white mb-1">Spot Trade Log</h2>
+                        <p class="text-gray-400">Here is a detailed record of all your trades. Consistent logging is key to identifying your trading edge.</p>
+                    </div>
+                    <button id="addTradeBtn" class="bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg mt-4 sm:mt-0 hover:bg-yellow-400 transition-colors">Add New Trade</button>
+                </div>
+                <div class="bg-gray-800 p-2 sm:p-4 rounded-lg">
+                    <div class="table-responsive">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-700">
+                                <tr><th scope="col" class="px-4 py-3">Pair</th><th scope="col" class="px-4 py-3">Entry Price</th><th scope="col" class="px-4 py-3">Exit Price</th><th scope="col" class="px-4 py-3">Net P/L (USDT)</th><th scope="col" class="px-4 py-3">% P/L</th><th scope="col" class="px-4 py-3">Learnings / Analysis</th></tr>
+                            </thead>
+                            <tbody id="trade-log-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="passive-income" class="content-section hidden">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-white mb-1">Simple Earn Log</h2>
+                    <p class="text-gray-400">Track your passive income from USDT and USDC holdings. Every little bit adds up!</p>
+                </div>
+                <div class="bg-gray-800 p-2 sm:p-4 rounded-lg">
+                    <div class="table-responsive">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-700">
+                                <tr><th scope="col" class="px-4 py-3">Date Started</th><th scope="col" class="px-4 py-3">Asset</th><th scope="col" class="px-4 py-3">Amount Staked</th><th scope="col" class="px-4 py-3">Product</th><th scope="col" class="px-4 py-3">APR %</th><th scope="col" class="px-4 py-3">Total Earnings</th></tr>
+                            </thead>
+                            <tbody id="simple-earn-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="campaigns" class="content-section hidden">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-white mb-1">Campaign & Giveaway Log</h2>
+                    <p class="text-gray-400">Keep a record of your participation in Binance Square events, quizzes, and other promotions.</p>
+                </div>
+                <div class="bg-gray-800 p-2 sm:p-4 rounded-lg">
+                    <div class="table-responsive">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-700">
+                                <tr><th scope="col" class="px-4 py-3">Date</th><th scope="col" class="px-4 py-3">Campaign Name</th><th scope="col" class="px-4 py-3">Type</th><th scope="col" class="px-4 py-3">Result</th><th scope="col" class="px-4 py-3">Winnings</th></tr>
+                            </thead>
+                            <tbody id="campaign-log-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="tradeModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="tradeModalTitle">
+        <div class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md m-4">
+            <h2 id="tradeModalTitle" class="text-2xl font-bold mb-6 text-white">Add New Spot Trade</h2>
+            <form id="tradeForm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div><label class="block text-sm font-medium text-gray-400 mb-1">Pair</label><input type="text" placeholder="e.g., ETH/USDT" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></div>
+                    <div><label class="block text-sm font-medium text-gray-400 mb-1">Quantity</label><input type="number" step="any" placeholder="0.01" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></div>
+                    <div><label class="block text-sm font-medium text-gray-400 mb-1">Entry Price</label><input type="number" step="any" placeholder="3500.50" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></div>
+                    <div><label class="block text-sm font-medium text-gray-400 mb-1">Exit Price</label><input type="number" step="any" placeholder="3550.00" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></div>
+                </div>
+                <div class="mb-4"><label class="block text-sm font-medium text-gray-400 mb-1">Total Fees (USDT)</label><input type="number" step="any" placeholder="0.07" required class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-gray-400 mb-1">Learnings / Mistake Analysis</label><textarea rows="3" placeholder="Why did I take this trade? What did I learn?" class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea></div>
+                <div class="flex justify-end gap-4"><button type="button" id="cancelTradeBtn" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors">Cancel</button><button type="submit" class="bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-400 transition-colors">Save Trade</button></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const state = {
+                trades: [
+                    { id: 1, pair: 'ETH/USDT', quantity: 0.01, entryPrice: 3500.50, exitPrice: 3550.00, fees: 0.07, learnings: 'Good entry, but I could have held longer. I will set a higher take profit next time.' },
+                    { id: 2, pair: 'BTC/USDT', quantity: 0.0005, entryPrice: 71200.00, exitPrice: 70800.00, fees: 0.07, learnings: 'I chased the price and bought at the top. I should wait for a pullback. Never trade on FOMO.' },
+                    { id: 3, pair: 'ETH/USDT', quantity: 0.02, entryPrice: 3520.00, exitPrice: 3600.00, fees: 0.14, learnings: 'Patient entry based on support level worked well.' },
+                ],
+                simpleEarn: [
+                    { date: '01/09/2025', asset: 'USDT', amount: 50.00, product: 'Flexible', apr: '6.50%', earnings: 'N/A' },
+                    { date: '03/09/2025', asset: 'USDC', amount: 25.00, product: '7 Day Locked', apr: '8.00%', earnings: '0.038' }
+                ],
+                campaigns: [
+                    { date: '02/09/2025', name: 'Learn & Earn: SOL', type: 'Quiz', result: 'Win', winnings: '0.01 SOL' },
+                    { date: '04/09/2025', name: 'Red Packet Giveaway', type: 'Giveaway', result: 'Win', winnings: '0.15 USDT' },
+                    { date: '06/09/2025', name: 'Trading Competition', type: 'Challenge', result: 'Participated', winnings: '0' }
+                ]
+            };
+
+            const calculatePnl = (trade) => {
+                const buyCost = trade.entryPrice * trade.quantity;
+                const sellValue = trade.exitPrice * trade.quantity;
+                const netPnl = sellValue - buyCost - trade.fees;
+                const pnlPercent = (netPnl / buyCost) * 100;
+                return { netPnl, pnlPercent };
+            };
+
+            let winLossChartInstance = null;
+            let pnlByPairChartInstance = null;
+
+            function updateDashboard() {
+                const totalTrades = state.trades.length;
+                let winningTrades = 0;
+                let totalProfit = 0;
+                let totalLoss = 0;
+                let totalNetPnl = 0;
+                const pnlByPair = {};
+
+                state.trades.forEach((trade) => {
+                    const { netPnl } = calculatePnl(trade);
+                    totalNetPnl += netPnl;
+                    if (netPnl > 0) {
+                        winningTrades++;
+                        totalProfit += netPnl;
+                    } else {
+                        totalLoss += netPnl;
+                    }
+                    if (!pnlByPair[trade.pair]) pnlByPair[trade.pair] = 0;
+                    pnlByPair[trade.pair] += netPnl;
+                });
+
+                const winRate = totalTrades > 0 ? (winningTrades / totalTrades) * 100 : 0;
+                const profitFactor = totalLoss !== 0 ? Math.abs(totalProfit / totalLoss) : (totalProfit > 0 ? Infinity : 0);
+
+                document.getElementById('metric-net-pl').textContent = `${totalNetPnl.toFixed(2)} USDT`;
+                document.getElementById('metric-net-pl').className = `text-2xl font-semibold mt-1 ${totalNetPnl >= 0 ? 'text-green-400' : 'text-red-400'}`;
+                document.getElementById('metric-win-rate').textContent = `${winRate.toFixed(2)}%`;
+                document.getElementById('metric-profit-factor').textContent = profitFactor === Infinity ? 'Infinity' : profitFactor.toFixed(2);
+                document.getElementById('metric-total-trades').textContent = totalTrades;
+
+                updateWinLossChart(winningTrades, totalTrades - winningTrades);
+                updatePnlByPairChart(pnlByPair);
+            }
+
+            function updateWinLossChart(wins, losses) {
+                const ctx = document.getElementById('winLossChart').getContext('2d');
+                if (winLossChartInstance) winLossChartInstance.destroy();
+                winLossChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Winning Trades', 'Losing Trades'],
+                        datasets: [{ data: [wins, losses], backgroundColor: ['rgba(52, 211, 153, 0.7)', 'rgba(248, 113, 113, 0.7)'], borderColor: ['#10B981', '#EF4444'], borderWidth: 1 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#D1D5DB' } } } }
+                });
+            }
+
+            function updatePnlByPairChart(pnlData) {
+                const ctx = document.getElementById('pnlByPairChart').getContext('2d');
+                const labels = Object.keys(pnlData);
+                const data = Object.values(pnlData);
+                const backgroundColors = data.map((pnl) => pnl >= 0 ? 'rgba(52, 211, 153, 0.7)' : 'rgba(248, 113, 113, 0.7)');
+                const borderColors = data.map((pnl) => pnl >= 0 ? '#10B981' : '#EF4444');
+
+                if (pnlByPairChartInstance) pnlByPairChartInstance.destroy();
+                pnlByPairChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels, datasets: [{ label: 'Net P/L', data, backgroundColor: backgroundColors, borderColor: borderColors, borderWidth: 1 }] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, ticks: { color: '#9CA3AF' }, grid: { color: 'rgba(156, 163, 175, 0.2)' } },
+                            x: { ticks: { color: '#9CA3AF' }, grid: { display: false } }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            function renderRows(targetId, rows, classes) {
+                const tbody = document.getElementById(targetId);
+                tbody.innerHTML = '';
+                rows.forEach((cells) => {
+                    const row = document.createElement('tr');
+                    row.className = 'bg-gray-800 border-b border-gray-700 hover:bg-gray-600';
+                    cells.forEach((cell, index) => {
+                        const td = document.createElement('td');
+                        td.className = classes[index];
+                        td.textContent = cell;
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                });
+            }
+
+            function renderTradeLog() {
+                const rows = state.trades.map((trade) => {
+                    const { netPnl, pnlPercent } = calculatePnl(trade);
+                    return [trade.pair, String(trade.entryPrice), String(trade.exitPrice), netPnl.toFixed(2), `${pnlPercent.toFixed(2)}%`, trade.learnings, netPnl >= 0, pnlPercent >= 0];
+                });
+                const tbody = document.getElementById('trade-log-body');
+                tbody.innerHTML = '';
+                rows.forEach((rowData) => {
+                    const row = document.createElement('tr');
+                    row.className = 'bg-gray-800 border-b border-gray-700 hover:bg-gray-600';
+                    const display = rowData.slice(0, 6);
+                    display.forEach((value, index) => {
+                        const td = document.createElement('td');
+                        td.className = ['px-4 py-3 font-medium text-white', 'px-4 py-3', 'px-4 py-3', `px-4 py-3 font-semibold ${rowData[6] ? 'text-green-400' : 'text-red-400'}`, `px-4 py-3 ${rowData[7] ? 'text-green-400' : 'text-red-400'}`, 'px-4 py-3 text-gray-400'][index];
+                        td.textContent = value;
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                });
+            }
+
+            function renderSimpleEarnLog() {
+                renderRows('simple-earn-body', state.simpleEarn.map((item) => [item.date, item.asset, item.amount.toFixed(2), item.product, item.apr, item.earnings]), ['px-4 py-3 text-white', 'px-4 py-3 font-medium text-white', 'px-4 py-3', 'px-4 py-3', 'px-4 py-3', 'px-4 py-3 text-green-400']);
+            }
+
+            function renderCampaignLog() {
+                renderRows('campaign-log-body', state.campaigns.map((item) => [item.date, item.name, item.type, item.result, item.winnings]), ['px-4 py-3 text-white', 'px-4 py-3 font-medium text-white', 'px-4 py-3', 'px-4 py-3', 'px-4 py-3 text-yellow-400']);
+            }
+
+            function handleNavigation(e) {
+                if (!e.target.matches('button[data-target]')) return;
+                const targetId = e.target.dataset.target;
+                document.querySelectorAll('.content-section').forEach((section) => section.classList.toggle('hidden', section.id !== targetId));
+                document.querySelectorAll('nav button').forEach((button) => {
+                    const isActive = button.dataset.target === targetId;
+                    button.classList.remove('nav-item-active', 'text-white');
+                    button.classList.add('text-gray-400');
+                    if (isActive) {
+                        button.classList.add('nav-item-active', 'text-white');
+                        button.classList.remove('text-gray-400');
+                    }
+                    button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    button.setAttribute('tabindex', isActive ? '0' : '-1');
+                });
+            }
+
+            const modal = document.getElementById('tradeModal');
+            let lastFocused = null;
+            document.getElementById('addTradeBtn').addEventListener('click', () => {
+                lastFocused = document.activeElement;
+                modal.classList.remove('hidden');
+                modal.setAttribute('aria-hidden', 'false');
+                modal.querySelector('input')?.focus();
+            });
+            document.getElementById('cancelTradeBtn').addEventListener('click', () => {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+                lastFocused?.focus();
+            });
+
+            document.getElementById('tradeForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const inputs = e.target.elements;
+                state.trades.push({
+                    id: state.trades.length + 1,
+                    pair: inputs[0].value,
+                    quantity: parseFloat(inputs[1].value),
+                    entryPrice: parseFloat(inputs[2].value),
+                    exitPrice: parseFloat(inputs[3].value),
+                    fees: parseFloat(inputs[4].value),
+                    learnings: inputs[5].value
+                });
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+                e.target.reset();
+                lastFocused?.focus();
+                renderAll();
+            });
+
+            function renderAll() {
+                updateDashboard();
+                renderTradeLog();
+                renderSimpleEarnLog();
+                renderCampaignLog();
+            }
+
+            const navButtons = Array.from(document.querySelectorAll('nav button[data-target]'));
+            navButtons.forEach((button, index) => {
+                button.addEventListener('keydown', (event) => {
+                    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                    event.preventDefault();
+                    let nextIndex = index;
+                    if (event.key === 'ArrowRight') nextIndex = (index + 1) % navButtons.length;
+                    if (event.key === 'ArrowLeft') nextIndex = (index - 1 + navButtons.length) % navButtons.length;
+                    if (event.key === 'Home') nextIndex = 0;
+                    if (event.key === 'End') nextIndex = navButtons.length - 1;
+                    navButtons[nextIndex].focus();
+                    navButtons[nextIndex].click();
+                });
+            });
+
+            document.querySelector('nav').addEventListener('click', handleNavigation);
+            renderAll();
+        });
+    </script>
+</body>
+</html>

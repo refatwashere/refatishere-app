@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>In Loving Memory</title>
+  <style>
+    :root {
+      --ink: #3a2f44;
+      --ink-soft: #5f5470;
+      --accent: #8a3ffc;
+      --card: rgba(255, 255, 255, 0.9);
+      --border: rgba(138, 63, 252, 0.2);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Merriweather", Georgia, serif;
+      color: var(--ink);
+      background: linear-gradient(170deg, #f7eaf6 0%, #fdfdfd 55%, #e6f0fa 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #ffd6e0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      margin: 0 1rem;
+      font-weight: 600;
+      color: #3a2b44;
+      text-decoration: none;
+      transition: color 0.25s ease;
+      font-family: "Poppins", Arial, sans-serif;
+    }
+    nav a:hover { color: var(--accent); }
+    nav .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav a.active {
+      color: #fff;
+      background: rgba(138, 63, 252, 0.25);
+      padding: 0.4rem 0.8rem;
+      border-radius: 12px;
+    }
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .memorial-main {
+      padding: 2rem 1rem 3rem;
+      display: grid;
+      place-items: center;
+    }
+    .memorial-card {
+      width: min(860px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 14px 34px rgba(42, 30, 56, 0.12);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .petal-symbol {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.8rem;
+      opacity: 0.75;
+      animation: drift 7s ease-in-out infinite;
+    }
+    @keyframes drift {
+      0% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+      100% { transform: translateX(-50%) translateY(0); }
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3.3vw, 2.5rem);
+      color: #70438a;
+    }
+    .lead {
+      margin: 0.9rem auto 1.3rem;
+      max-width: 680px;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      font-size: 1.02rem;
+    }
+    .poem {
+      margin: 1.2rem auto;
+      max-width: 720px;
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(123, 77, 128, 0.2);
+      font-style: italic;
+      line-height: 1.7;
+      color: #463650;
+    }
+    .counter {
+      margin: 1.2rem auto 0.8rem;
+      display: inline-block;
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      background: rgba(138, 63, 252, 0.1);
+      border: 1px solid rgba(138, 63, 252, 0.2);
+      font-weight: 700;
+      color: #5b3674;
+      font-size: 1rem;
+    }
+    .quote-card {
+      margin: 1rem auto 0;
+      max-width: 720px;
+      padding: 1.1rem 1rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(138, 63, 252, 0.15);
+    }
+    .quote-card blockquote {
+      margin: 0;
+      line-height: 1.65;
+      font-size: 1.04rem;
+      color: #3d3050;
+    }
+    .quote-card footer {
+      margin-top: 0.75rem;
+      font-family: "Poppins", Arial, sans-serif;
+      color: #6a5b78;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .reflection {
+      margin-top: 1rem;
+      color: #6a5b78;
+      font-size: 0.96rem;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+      nav .nav-links {
+        width: 100%;
+        gap: 0.2rem 0.6rem;
+      }
+      nav a { margin: 0; }
+      .memorial-card {
+        padding: 1.4rem 1rem 1.5rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .petal-symbol { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Primary">
+      <div class="logo"><a href="index.html">Refat</a></div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="resources.html">Resources</a>
+        <a href="mom.html">Mom</a>
+        <a href="crypto/crypto.html">Binance Tool</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="memorial-main" id="main-content">
+    <article class="memorial-card" aria-labelledby="memorial-title">
+      <div class="petal-symbol" aria-hidden="true">* * *</div>
+      <h1 id="memorial-title">In Loving Memory of My Mother</h1>
+      <p class="lead">Your love remains a gentle light in every quiet day, guiding me with grace, patience, and warmth.</p>
+
+      <section class="poem" aria-label="Memorial poem">
+        In silence you left, yet in my heart you remain.<br>
+        A light no darkness can dim,<br>
+        a love that time cannot steal.
+      </section>
+
+      <p class="counter" id="daysCounter">Calculating days...</p>
+
+      <section class="quote-card" aria-label="Daily remembrance quote">
+        <blockquote id="quoteText">Hope is the thing with feathers.</blockquote>
+        <footer id="quoteAuthor">- Emily Dickinson</footer>
+      </section>
+
+      <p class="reflection">Love is the bridge between memory and forever.</p>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      const links = document.querySelectorAll('nav a[href]');
+      const currentPath = window.location.pathname.toLowerCase();
+      links.forEach(function (link) {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const resolved = new URL(href, window.location.href).pathname.toLowerCase();
+        if (resolved === currentPath) link.classList.add('active');
+      });
+
+      const counterEl = document.getElementById('daysCounter');
+      const startDate = new Date('2025-01-21T00:00:00');
+      const now = new Date();
+      if (counterEl && !Number.isNaN(startDate.getTime())) {
+        const diff = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        counterEl.textContent = diff >= 0
+          ? diff + ' days since January 21, 2025'
+          : 'Date counter unavailable';
+      }
+
+      const quotes = [
+        { text: 'What we have once enjoyed we can never lose; all that we love deeply becomes a part of us.', author: '- Helen Keller' },
+        { text: 'Grief is the price we pay for love.', author: '- Queen Elizabeth II' },
+        { text: 'To live in hearts we leave behind is not to die.', author: '- Thomas Campbell' },
+        { text: 'Those we love do not go away; they walk beside us every day.', author: '- Anonymous' },
+        { text: 'The melody of love remains even when the song is over.', author: '- Adapted remembrance quote' },
+        { text: 'When the day feels heavy, memory can still feel like shelter.', author: '- Anonymous' },
+        { text: 'Love, like starlight, never fades. It only travels farther.', author: '- Anonymous' }
+      ];
+
+      const quoteTextEl = document.getElementById('quoteText');
+      const quoteAuthorEl = document.getElementById('quoteAuthor');
+      if (quoteTextEl && quoteAuthorEl && quotes.length > 0) {
+        const day = now.getUTCDate();
+        const month = now.getUTCMonth() + 1;
+        const year = now.getUTCFullYear();
+        const seed = day + (month * 100) + (year * 10000);
+        const seedText = String(seed);
+
+        let hash = 0;
+        for (let i = 0; i < seedText.length; i += 1) {
+          hash = ((hash * 31) + seedText.charCodeAt(i)) >>> 0;
+        }
+
+        const idx = hash % quotes.length;
+        quoteTextEl.textContent = '"' + quotes[idx].text + '"';
+        quoteAuthorEl.textContent = quotes[idx].author;
+      }
+    })();
+  </script>
+</body>
+</html>

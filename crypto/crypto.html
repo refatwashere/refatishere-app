@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crypto Workspace v10</title>
+<link rel="stylesheet" href="src/css/main.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand-block glass">
+      <div class="eyebrow">v10 workspace</div>
+      <h1>Crypto OS</h1>
+      <p class="muted">A calmer dashboard for noisy markets.</p>
+    </div>
+
+    <section class="glass side-section">
+      <div class="section-head">
+        <h3>Market</h3>
+        <button id="refreshBtn" class="ghost-btn">Refresh</button>
+      </div>
+      <label>Symbol<select id="symbolSelect"></select></label>
+      <label>Interval<select id="intervalSelect"></select></label>
+      <div class="quick-row">
+        <button id="focusModeBtn" class="ghost-btn">Focus Mode</button>
+        <button id="commandBtn" class="ghost-btn">⌘/Ctrl+K</button>
+      </div>
+    </section>
+
+    <section class="glass side-section">
+      <div class="section-head"><h3>Appearance</h3></div>
+      <label>Theme
+        <select id="themeSelect">
+          <option value="aurora">Aurora</option>
+          <option value="midnight">Midnight</option>
+          <option value="ocean">Ocean</option>
+        </select>
+      </label>
+      <label>Density
+        <select id="densitySelect">
+          <option value="comfortable">Comfortable</option>
+          <option value="compact">Compact</option>
+        </select>
+      </label>
+      <label>Motion
+        <select id="motionSelect">
+          <option value="soft">Soft</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="glass side-section">
+      <div class="section-head"><h3>Settings</h3></div>
+      <label>Backend API Token<input id="backendTokenInput" type="password" placeholder="API_TOKEN_CRYPTO"></label>
+      <label>Binance API Key<input id="binanceKeyInput" type="password" placeholder="Optional for private actions"></label>
+      <label>Binance API Secret<input id="binanceSecretInput" type="password" placeholder="Optional for private actions"></label>
+      <label>Use Testnet<select id="useTestnetSelect"><option value="true">true</option><option value="false">false</option></select></label>
+      <label>recvWindow<input id="recvWindowInput" type="number" min="1" max="60000" value="5000"></label>
+      <label>Enable Planner<select id="plannerEnabledSelect"><option value="true">true</option><option value="false">false</option></select></label>
+      <label>Planner Provider<select id="plannerProviderSelect"><option value="local">local</option><option value="sidecar">sidecar</option></select></label>
+      <label>Planner Venue<select id="plannerVenueSelect"><option value="binance">binance</option><option value="pancakeswap">pancakeswap</option></select></label>
+      <label>Planner Chain ID<input id="plannerChainIdInput" type="number" value="56"></label>
+      <div class="quick-row">
+        <button id="saveSettingsBtn">Save</button>
+        <button id="clearSettingsBtn" class="ghost-btn">Clear</button>
+      </div>
+    </section>
+
+    <section class="glass side-section">
+      <div class="section-head"><h3>Watchlist</h3></div>
+      <div id="watchlist" class="chip-wrap"></div>
+    </section>
+
+    <section class="glass side-section">
+      <div class="section-head"><h3>Alerts</h3></div>
+      <input id="alertPrice" type="number" step="0.01" placeholder="Target price">
+      <button id="addAlertBtn">Add Alert</button>
+      <ul id="alertsList" class="alert-list"></ul>
+    </section>
+  </aside>
+
+  <main class="main">
+    <header class="hero glass">
+      <div>
+        <div class="eyebrow">trend-aware, calmer UI</div>
+        <h2>Market Workspace</h2>
+        <p id="statusLine" class="muted">Ready.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="loadAccountBtn" class="ghost-btn">Account</button>
+        <button id="loadOrdersBtn" class="ghost-btn">Orders</button>
+        <button id="checkSidecarBtn" class="ghost-btn">Sidecar</button>
+        <button id="cleanupCacheBtn" class="ghost-btn">Cache</button>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <article class="glass kpi-card accent"><span>Last</span><strong id="lastPrice">-</strong></article>
+      <article class="glass kpi-card"><span>EMA Spread</span><strong id="emaSpread">-</strong></article>
+      <article class="glass kpi-card"><span>RSI</span><strong id="rsiValue">-</strong></article>
+      <article class="glass kpi-card"><span>Journal P/L</span><strong id="journalPnl">-</strong></article>
+    </section>
+
+    <section class="glass ticker-panel">
+      <div class="panel-top">
+        <h3>Live Tape</h3>
+        <span id="wsStateBadge" class="status-pill">Idle</span>
+      </div>
+      <div id="marketCards" class="market-cards"></div>
+      <div class="ticker-strip"><div id="tickerStrip"></div></div>
+    </section>
+
+    <section class="bento">
+      <article class="glass panel chart-panel">
+        <div class="panel-top">
+          <h3>Chart</h3>
+          <span id="sourceBadge" class="status-pill">Loading</span>
+        </div>
+        <canvas id="priceCanvas" width="1120" height="420"></canvas>
+        <div class="microcopy">Source states: Loading, Proxy, Degraded, Fallback, Unavailable.</div>
+      </article>
+
+      <article class="glass panel summary-panel">
+        <div class="panel-top">
+          <h3>Signal Summary</h3>
+          <button id="pulseRefreshBtn" class="ghost-btn">Refresh Summary</button>
+        </div>
+        <div id="signalSummary" class="summary-stack"></div>
+        <div class="insight-bar" id="insightBar"></div>
+      </article>
+
+      <article class="glass panel planner-panel">
+        <div class="panel-top">
+          <h3>Planner</h3>
+          <span class="subtle-badge">advisory only</span>
+        </div>
+        <div class="form-grid two">
+          <label>Side<select id="plannerSideSelect"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></label>
+          <label>Size<input id="plannerSizeInput" type="number" step="0.0001" value="0.01"></label>
+          <label>Limit price<input id="plannerLimitPriceInput" type="number" step="0.01" placeholder="For LIMIT only"></label>
+          <label>Route type<select id="plannerRouteTypeSelect"><option value="auto">auto</option><option value="best">best</option><option value="stable">stable</option></select></label>
+          <label>Token in<input id="plannerTokenInInput" value="WBNB"></label>
+          <label>Token out<input id="plannerTokenOutInput" value="USDT"></label>
+          <label>Amount in<input id="plannerAmountInInput" type="number" step="0.0001" value="0.01"></label>
+          <label>Slippage (bps)<input id="plannerSlippageInput" type="number" step="1" value="50"></label>
+        </div>
+        <textarea id="plannerPrompt" rows="5" placeholder="Describe setup, invalidation, context, and what makes the trade wrong."></textarea>
+        <button id="plannerBtn">Generate Plan</button>
+        <pre id="plannerOutput"></pre>
+      </article>
+
+      <article class="glass panel private-panel">
+        <div class="panel-top">
+          <h3>Private Actions</h3>
+          <span class="subtle-badge">safe previews first</span>
+        </div>
+        <pre id="privateOutput"></pre>
+      </article>
+
+      <article class="glass panel journal-panel">
+        <div class="panel-top">
+          <h3>Journal</h3>
+          <button id="reloadJournalBtn" class="ghost-btn">Reload</button>
+        </div>
+        <div class="toolbar">
+          <input id="journalFilterInput" placeholder="Filter by symbol or notes">
+          <div class="toolbar-actions">
+            <button id="seedBtn" type="button" class="ghost-btn">Seed</button>
+            <button id="exportBtn" type="button" class="ghost-btn">Export</button>
+          </div>
+        </div>
+        <form id="journalForm" class="form-grid">
+          <input name="symbol" placeholder="Symbol">
+          <select name="side"><option>BUY</option><option>SELL</option></select>
+          <input name="entry" type="number" step="0.01" placeholder="Entry">
+          <input name="exit" type="number" step="0.01" placeholder="Exit">
+          <input name="qty" type="number" step="0.0001" placeholder="Qty">
+          <button>Add Entry</button>
+        </form>
+        <div id="journalTableWrap"></div>
+      </article>
+
+      <article class="glass panel trades-panel">
+        <div class="panel-top">
+          <h3>Trades</h3>
+          <button id="reloadTradesBtn" class="ghost-btn">Reload</button>
+        </div>
+        <div class="toolbar grid-toolbar">
+          <input id="tradeFromInput" type="date">
+          <input id="tradeToInput" type="date">
+          <select id="tradeSortSelect">
+            <option value="id_desc">Newest first</option>
+            <option value="id_asc">Oldest first</option>
+            <option value="entry_price_desc">Entry high to low</option>
+            <option value="entry_price_asc">Entry low to high</option>
+            <option value="exit_price_desc">Exit high to low</option>
+            <option value="exit_price_asc">Exit low to high</option>
+          </select>
+          <button id="applyTradeFiltersBtn" type="button">Apply</button>
+        </div>
+        <form id="tradeForm" class="form-grid two">
+          <input name="pair" placeholder="BTCUSDT">
+          <input name="quantity" type="number" step="0.0001" placeholder="Quantity">
+          <input name="entryPrice" type="number" step="0.01" placeholder="Entry Price">
+          <input name="exitPrice" type="number" step="0.01" placeholder="Exit Price">
+          <input name="fees" type="number" step="0.01" placeholder="Fees">
+          <input name="learnings" placeholder="Learnings">
+          <button>Save Trade</button>
+        </form>
+        <pre id="tradeOutput"></pre>
+        <div id="tradesTableWrap"></div>
+      </article>
+
+      <article class="glass panel order-panel">
+        <div class="panel-top">
+          <h3>Manual Order Actions</h3>
+          <span class="subtle-badge">dry run by default</span>
+        </div>
+        <form id="orderForm" class="form-grid two">
+          <input name="symbol" placeholder="BTCUSDT">
+          <select name="side"><option value="BUY">BUY</option><option value="SELL">SELL</option></select>
+          <select name="type"><option value="MARKET">MARKET</option><option value="LIMIT">LIMIT</option></select>
+          <input name="quantity" type="number" step="0.0001" placeholder="Quantity">
+          <input name="price" type="number" step="0.01" placeholder="Limit price">
+          <input name="newClientOrderId" placeholder="Optional client order id">
+          <button>Preview Order</button>
+        </form>
+        <div class="toolbar-actions">
+          <button id="checkStatusBtn" type="button" class="ghost-btn">Check Status</button>
+          <button id="cancelOrderBtn" type="button" class="ghost-btn">Cancel</button>
+        </div>
+        <pre id="orderOutput"></pre>
+      </article>
+    </section>
+  </main>
+</div>
+
+<div id="commandPalette" class="command-palette hidden" aria-hidden="true">
+  <div class="palette-backdrop"></div>
+  <div class="palette-card glass">
+    <input id="commandInput" placeholder="Search actions…">
+    <div id="commandList" class="command-list"></div>
+  </div>
+</div>
+
+<script src="src/js/core/app.js"></script>
+</body>
+</html>

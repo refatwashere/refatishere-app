@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Refat | Contact</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header>
+<nav aria-label="Primary">
+  <div class="logo"><a href="index.html">Refat</a></div>
+  <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="resources.html">Resources</a>
+      <a href="mom.html">Mom</a>
+      <a href="crypto/crypto.html">Binance Tool</a>
+      <a href="contact.html">Contact</a>
+  </div>
+</nav>
+</header>
+
+<main id="main-content">
+<section class="hero compact">
+  <span class="eyebrow">Open collaboration and resource requests</span>
+  <h1>Contact</h1>
+  <p>Want to collaborate, need a worksheet, or want app access? Send a message - I usually reply fast.</p>
+</section>
+
+<section id="contact-form">
+  <h2>Send a Message</h2>
+  <p class="section-intro">Use this page for collaboration ideas, classroom material requests, or questions about the tools and projects shared here.</p>
+  <div class="contact-shell">
+    <div class="card wide">
+      <form onsubmit="event.preventDefault(); document.getElementById('contact-status').hidden = false;" novalidate>
+        <div class="form-stack">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" placeholder="Your name" class="form-control" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" class="form-control" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" placeholder="Tell me about your project..." class="form-control" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Submit</button>
+            <a href="resources.html" class="btn btn-secondary">Browse Resources</a>
+          </div>
+        </div>
+        <p id="contact-status" class="status-message" role="status" aria-live="polite" hidden>Thanks. For now, please send details by email to <a href="mailto:rbl.islam.refat2@gmail.com">rbl.islam.refat2@gmail.com</a>.</p>
+      </form>
+    </div>
+    <div class="card wide">
+      <span class="card-kicker">Best uses for this page</span>
+      <h3>What you can reach out about</h3>
+      <ul class="contact-list">
+        <li>Custom worksheets or classroom resource requests</li>
+        <li>Project collaboration ideas</li>
+        <li>Questions about the Binance tool or trade-journal pages</li>
+        <li>General hello messages and feedback</li>
+      </ul>
+      <div class="card-actions">
+        <a href="mailto:rbl.islam.refat2@gmail.com" class="btn btn-ghost">rbl.islam.refat2@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="response-style">
+  <h2>What Happens Next</h2>
+  <div class="grid-3">
+    <div class="card feature">
+      <span class="card-kicker">For resource requests</span>
+      <h3>Tell me the class and topic</h3>
+      <p>If you mention the grade, subject, and goal, I can understand the request much faster and shape something more useful.</p>
+    </div>
+    <div class="card feature">
+      <span class="card-kicker">For project ideas</span>
+      <h3>Share the real problem</h3>
+      <p>The best starting point is not just the feature you want, but the actual difficulty you are trying to solve for learners, teachers, or users.</p>
+    </div>
+    <div class="card feature">
+      <span class="card-kicker">For general contact</span>
+      <h3>Simple is fine</h3>
+      <p>You do not need a formal message. A short hello, a question, or a rough idea is enough to start the conversation.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  &copy; <span id="year"></span> Refat.
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
