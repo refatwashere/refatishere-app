@@ -1,10 +1,8 @@
 ﻿# Documentation Index
 
-Current documentation is split into three layers:
+Current documentation in this repo snapshot is the canonical `docs/` set only.
 
-- **Canonical** — current source-of-truth docs in `docs/`
-- **Reference** — supporting guides in `docs/reference/`
-- **Release History / Archive** — historical material in `docs/release-history/`, `docs/archive/`, and repo-level `archive/`
+Historical/reference layers such as `docs/reference/`, `docs/release-history/`, `docs/archive/`, and repo-level `archive/` are referenced in some older docs but are not present in this repository snapshot. Treat links to those paths as historical expectations, not as available files.
 
 ## Canonical Docs
 
@@ -19,59 +17,22 @@ Current documentation is split into three layers:
 - [Crypto App](CRYPTO_APP.md)
 - [AI Planner Architecture](AI_PLANNER_ARCHITECTURE.md)
 - [Project Organization](PROJECT_ORGANIZATION.md)
+- [Repository Structure Strategy](REPOSITORY_STRUCTURE_STRATEGY.md)
 - [Project Changelog](CHANGELOG_PROJECT.md)
 
 Folder purpose notes:
 
 - [`docs/`](.) — current source of truth
-- [`docs/reference/`](reference/README.md) — supporting implementation detail
-- [`docs/release-history/`](release-history/README.md) — historical release context
-- [`docs/archive/`](archive/README.md) — superseded but retained docs
-
-## Reference Docs
-
-- [API Examples](reference/API_EXAMPLES.md)
-- [Data Models](reference/DATA_MODELS.md)
-- [Error Catalog](reference/ERROR_CATALOG.md)
-- [Frontend Pages](reference/FRONTEND_PAGES.md)
-- [InfinityFree Deployment Commands](reference/INFINITYFREE_DEPLOYMENT_COMMANDS.md)
-- [PancakeSwap Adaptation Guide](reference/PANCAKESWAP_ADAPTATION_GUIDE.md)
-- [PancakeSwap AI Adapter Contract](reference/PANCAKESWAP_AI_ADAPTER_CONTRACT.md)
-- [PancakeSwap Planner UX](reference/PANCAKESWAP_PLANNER_UX.md)
-- [Performance Tuning](reference/PERFORMANCE_TUNING.md)
-- [Planner Request / Response](reference/PLANNER_REQUEST_RESPONSE.md)
-- [Sidecar API Contract](reference/SIDECAR_API_CONTRACT.md)
-- [Sidecar Deployment Config](reference/SIDECAR_DEPLOYMENT_CONFIG.md)
-
-## Release History
-
-- [Frontend Regression Checklist](release-history/FRONTEND_REGRESSION_CHECKLIST.md)
-- [Phase 0 Baseline Freeze](release-history/PHASE0_BASELINE_FREEZE.md)
-- [Phase 6 Documentation Index](release-history/PHASE6_DOCUMENTATION_INDEX.md)
-- [Phase 6 Release Gating Checklist](release-history/PHASE6_RELEASE_GATING_CHECKLIST.md)
-- [Project Completion Summary](release-history/PROJECT_COMPLETION_SUMMARY.md)
-
-## Archived Docs
-
-- [Deployment Options (Superseded)](archive/DEPLOYMENT_OPTIONS_FREE.md)
-- [Project Analysis Summary (Historical)](archive/PROJECT_ANALYSIS_SUMMARY.md)
-
-## Repo-Level Archive
-
-See `../archive/README.md` for:
-
-- legacy sidecar assets
-- session/chat artifacts
-- superseded root-level reports
+- missing in this snapshot: `docs/reference/`, `docs/release-history/`, `docs/archive/`, `archive/`
 
 ## Placement Checklist
 
 When adding a new document, place it by intent:
 
 - current contract or operational truth → `docs/`
-- examples, models, troubleshooting, or deep implementation reference → `docs/reference/`
-- milestone, sign-off, or rollout snapshot → `docs/release-history/`
-- superseded, one-off, or historical material → `docs/archive/` or `../archive/`
+- examples, models, troubleshooting, or deep implementation reference → add `docs/reference/` only when that directory is intentionally created in-repo
+- milestone, sign-off, or rollout snapshot → add `docs/release-history/` only when that directory is intentionally created in-repo
+- superseded, one-off, or historical material → add `docs/archive/` or `archive/` only when those directories are intentionally created in-repo
 
 ## Recommended Reading Paths
 
@@ -83,24 +44,23 @@ When adding a new document, place it by intent:
 
 ### API work
 1. [API_REFERENCE.md](API_REFERENCE.md)
-2. [reference/API_EXAMPLES.md](reference/API_EXAMPLES.md)
-3. [reference/PLANNER_REQUEST_RESPONSE.md](reference/PLANNER_REQUEST_RESPONSE.md)
-4. [reference/SIDECAR_API_CONTRACT.md](reference/SIDECAR_API_CONTRACT.md)
+2. [ARCHITECTURE.md](ARCHITECTURE.md)
+3. [CRYPTO_APP.md](CRYPTO_APP.md)
+4. [AI_PLANNER_ARCHITECTURE.md](AI_PLANNER_ARCHITECTURE.md)
 
 ### Deployment work
 1. [DEPLOYMENT_AND_OPERATIONS.md](DEPLOYMENT_AND_OPERATIONS.md)
 2. [STATIC_SITE_DEPLOYMENT_AND_TESTING.md](STATIC_SITE_DEPLOYMENT_AND_TESTING.md)
 3. [CURRENT_STATUS_AND_TASK_LIST.md](CURRENT_STATUS_AND_TASK_LIST.md)
 4. [INFINITYFREE_DEPLOYMENT.md](INFINITYFREE_DEPLOYMENT.md)
-5. [reference/SIDECAR_DEPLOYMENT_CONFIG.md](reference/SIDECAR_DEPLOYMENT_CONFIG.md)
+5. [PLANNER_OPERATOR_CHECKLIST.md](PLANNER_OPERATOR_CHECKLIST.md)
 
 ### Current project status
 1. [../README.md](../README.md)
 2. [CURRENT_STATUS_AND_TASK_LIST.md](CURRENT_STATUS_AND_TASK_LIST.md)
 3. [CHANGELOG_PROJECT.md](CHANGELOG_PROJECT.md)
 4. [PROJECT_ORGANIZATION.md](PROJECT_ORGANIZATION.md)
+5. [REPOSITORY_STRUCTURE_STRATEGY.md](REPOSITORY_STRUCTURE_STRATEGY.md)
 
 ### Historical validation or release context
-1. [release-history/PHASE0_BASELINE_FREEZE.md](release-history/PHASE0_BASELINE_FREEZE.md)
-2. [release-history/PHASE6_RELEASE_GATING_CHECKLIST.md](release-history/PHASE6_RELEASE_GATING_CHECKLIST.md)
-3. [archive/PROJECT_ANALYSIS_SUMMARY.md](archive/PROJECT_ANALYSIS_SUMMARY.md)
+Historical validation and archive docs are not present in this repository snapshot.

@@ -3,7 +3,6 @@
 .env.*
 !.env.example
 .htaccess
-
 # Python
 __pycache__/
 *.pyc

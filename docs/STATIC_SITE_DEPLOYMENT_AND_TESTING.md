@@ -66,6 +66,21 @@ Recommended production values:
 
 Run these checks from repo root before uploading:
 
+Optional: build a deploy bundle first if you want a package that preserves public paths while decoupling deployment from the raw source tree:
+
+```powershell
+.\scripts\build_deploy_bundle.ps1 -Clean -IncludeDocs
+```
+
+This writes upload-ready folders to `output/deploy-package/`:
+
+- `upload-to-infinityfree-htdocs/` for direct upload into `htdocs/`
+- `optional-upload-public-docs/` for optional public docs hosting
+- `upload-to-vercel-sidecar/` for the separate sidecar deployment
+
+If you use that flow, upload from the generated target folder instead of directly from repo root.
+If you rebuild later without `-IncludeDocs`, the optional docs upload folder is removed so the bundle does not carry stale docs forward.
+
 1. Start a local static server for root-page verification:
 
 ```powershell
@@ -122,7 +137,17 @@ Do not skip this. Rollback is much faster if the backup already exists.
 
 ## 5. Files to upload to InfinityFree
 
-Upload these into `htdocs/`:
+Preferred upload source:
+
+- current direct source layout from repo root, or
+- `output/deploy-package/upload-to-infinityfree-htdocs/` after running `.\scripts\build_deploy_bundle.ps1 -Clean`
+- `output/deploy-package/optional-upload-public-docs/` only if you intentionally want docs public
+
+If using the bundle flow, upload the contents of `output/deploy-package/upload-to-infinityfree-htdocs/` into `htdocs/`.
+
+That folder is intentionally pre-filtered so you do not have to choose files manually.
+
+It contains these root files:
 
 - `index.html`
 - `about.html`
@@ -280,6 +305,7 @@ What this script currently verifies:
 - crypto health endpoint
 - crypto `klines` POST when `CryptoToken` is supplied
 - legacy `trades.php` GET when `LegacyToken` is supplied
+- response tracing should use the same request id in both the `X-Request-Id` header and JSON payload
 
 If sidecar is in use, also manually verify:
 

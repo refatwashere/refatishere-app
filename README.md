@@ -8,6 +8,8 @@ The public root pages present the personal portfolio and downloadable resources.
 - `crypto/` for the main crypto workspace and PHP backend
 - `vercel-sidecar/` for optional planner-sidecar deployment
 
+Repository organization follows deployable surfaces, not generic `frontend/` and `backend/` buckets. The long-term target is an `apps/*` source layout, but the current runtime files remain in place until deployment is fully artifact-based.
+
 ## Project Shape
 
 ### Public root site
@@ -49,6 +51,23 @@ Then open:
 - `http://127.0.0.1:8123/index.html`
 - `http://127.0.0.1:8123/crypto/crypto.html`
 
+## Deploy Packaging
+
+Build a deployable bundle that preserves the current public URL structure:
+
+```powershell
+.\scripts\build_deploy_bundle.ps1 -Clean -IncludeDocs
+```
+
+This writes upload-ready folders to `output/deploy-package/`:
+
+- `upload-to-infinityfree-htdocs/` for direct upload into InfinityFree `htdocs/`
+- `optional-upload-public-docs/` if `-IncludeDocs` is used
+- `upload-to-vercel-sidecar/` for the separate Vercel deployable
+
+The script is designed to keep working if the source tree later moves into `apps/site`, `apps/legacy-api`, `apps/crypto`, and `apps/planner-sidecar`.
+It also keeps bundle output aligned with the current command flags, so optional docs are removed from the package when `-IncludeDocs` is not used.
+
 ## Environment Contracts
 
 Reference the example files before deployment:
@@ -75,6 +94,7 @@ Start with these:
 - [docs/DEPLOYMENT_AND_OPERATIONS.md](docs/DEPLOYMENT_AND_OPERATIONS.md)
 - [docs/INFINITYFREE_DEPLOYMENT.md](docs/INFINITYFREE_DEPLOYMENT.md)
 - [docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)
+- [docs/REPOSITORY_STRUCTURE_STRATEGY.md](docs/REPOSITORY_STRUCTURE_STRATEGY.md)
 
 ## Current Notes
 

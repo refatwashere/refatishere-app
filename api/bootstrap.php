@@ -23,9 +23,15 @@ function env_value(string $key, ?string $default = null): ?string {
 }
 
 function request_id(): string {
+    static $resolved = null;
+    if (is_string($resolved) && $resolved !== '') return $resolved;
     $incoming = $_SERVER['HTTP_X_REQUEST_ID'] ?? '';
-    if ($incoming !== '' && preg_match('/^[A-Za-z0-9._:-]{8,64}$/', $incoming)) return $incoming;
-    return bin2hex(random_bytes(8));
+    if ($incoming !== '' && preg_match('/^[A-Za-z0-9._:-]{8,64}$/', $incoming)) {
+        $resolved = $incoming;
+        return $resolved;
+    }
+    $resolved = bin2hex(random_bytes(8));
+    return $resolved;
 }
 
 function cors_headers(): void {

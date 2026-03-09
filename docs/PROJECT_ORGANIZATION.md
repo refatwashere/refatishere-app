@@ -11,6 +11,7 @@ This document defines the active, reference, and archived structure of the repos
 | Root frontend | `*.html`, `style.css`, `script.js` | Public website UX |
 | Legacy API | `api/*` | Public legacy API behavior |
 | Crypto app | `crypto/*` | Trading UI and PHP backend |
+| Future app workspace | `apps/*` | Target source layout for deployable surfaces |
 | Deploy helpers | `deploy/*`, `scripts/*`, `DEPLOY_RUNBOOK.md`, `DEPLOYMENT_STATUS.md` | Deployment and validation |
 | Canonical docs | `docs/*.md` | Current source of truth |
 | Vercel sidecar | `vercel-sidecar/*` | Active planner sidecar |
@@ -41,6 +42,8 @@ This document defines the active, reference, and archived structure of the repos
 6. Runtime behavior changes must not depend on archived files.
 7. Root files should exist only when they are part of the deployable site/app surface or are top-level operator entry docs.
 8. Generated outputs and transient diagnostics should be ignored or written outside the active root surface.
+9. Repository structure should group code by deployable surface, not by generic `frontend/` and `backend/` layer names.
+10. Any future move into `apps/*` must preserve the current deployment URL contract via packaging.
 
 ## Generated and Local-Only Areas
 
@@ -54,6 +57,7 @@ This document defines the active, reference, and archived structure of the repos
 - The crypto workspace remains an active sibling surface under `crypto/`.
 - `Tradejournal.html` is part of the active public root experience.
 - `mem.html` and `memory.html` are compatibility redirect pages and should remain in place.
+- `apps/` is reserved for a future source-layout migration and is not yet the canonical runtime source location.
 
 ## Placement Rules for New Files
 
