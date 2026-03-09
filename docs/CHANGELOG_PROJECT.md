@@ -1,8 +1,64 @@
 ﻿# Project Changelog (Documentation Baseline)
 
-Last updated: 2026-03-04
+Last updated: 2026-03-09
 
 This file tracks major recent project-level changes reflected in current documentation.
+
+## 2026-03-09 site, documentation, and publish baseline
+
+### Root static site refresh
+
+- Root public pages were rebuilt around the personal-site content source while preserving the crypto workspace entry points.
+- Updated root pages:
+  - `index.html`
+  - `about.html`
+  - `projects.html`
+  - `resources.html`
+  - `contact.html`
+  - `mom.html`
+  - `mem.html`
+  - `memory.html`
+  - `Tradejournal.html`
+- Shared root frontend assets were updated:
+  - `style.css`
+  - `script.js`
+- Projects and resources pages now resolve to local repo assets under `images/` and `resources/`.
+
+### Theme and content refinement
+
+- The public root site returned to the darker glass-styled theme after the initial lighter refresh pass.
+- Root layout restraint was tightened so nav, main content, and footer read as visually bounded containers.
+- Shared script behavior was kept compatible with non-JavaScript rendering so reveal logic does not leave sections hidden when JS is unavailable.
+- Core root pages gained expanded content sections, stronger project framing, and clearer calls to action.
+
+### Memorial and journal continuity
+
+- `mom.html` remains the canonical memorial page.
+- `mem.html` and `memory.html` remain redirect shims to `mom.html`.
+- The memorial page keeps the day counter from `2025-01-21` and deterministic quote rotation.
+- `Tradejournal.html` remains a standalone interactive page in the root site surface.
+
+### Static assets and generated deliverables
+
+- Placeholder project images were copied into `images/` and linked from the projects page.
+- Downloadable teaching and reference files were copied into `resources/` and linked from the resources page.
+- A one-page generated app summary PDF was produced under `output/pdf/`.
+- PDF generator support was added in `scripts/generate_app_summary_pdf.py`.
+
+### Deployment, docs, and publishing
+
+- Added `docs/STATIC_SITE_DEPLOYMENT_AND_TESTING.md` as the precise deploy and QA runbook for the current site.
+- Updated repository documentation to reflect the current root-site shape and current deployment expectations.
+- Added `.gitignore` and `.gitattributes` for repo hygiene.
+- Reworked `README.md` into a GitHub-facing project entrypoint.
+- Configured GitHub remote:
+  - `origin https://github.com/refatwashere/refatishere-app.git`
+- Verified remote sync state against GitHub.
+
+### Branding cleanup
+
+- Removed `v10` branding from the crypto workspace UI in `crypto/crypto.html`.
+- The repository folder on disk still contains `-v10` because a local directory rename was blocked by an in-use lock.
 
 ## 2026-03 baseline
 

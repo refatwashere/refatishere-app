@@ -71,6 +71,7 @@ Key required values:
 Start with these:
 
 - [docs/STATIC_SITE_DEPLOYMENT_AND_TESTING.md](docs/STATIC_SITE_DEPLOYMENT_AND_TESTING.md)
+- [docs/CURRENT_STATUS_AND_TASK_LIST.md](docs/CURRENT_STATUS_AND_TASK_LIST.md)
 - [docs/DEPLOYMENT_AND_OPERATIONS.md](docs/DEPLOYMENT_AND_OPERATIONS.md)
 - [docs/INFINITYFREE_DEPLOYMENT.md](docs/INFINITYFREE_DEPLOYMENT.md)
 - [docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)
@@ -80,3 +81,6 @@ Start with these:
 - The root site is ready for static hosting with PHP-backed directories deployed alongside it.
 - `Tradejournal.html` still uses CDN-hosted Tailwind and Chart.js.
 - `tmp/` and `output/` are treated as generated local artifacts and are ignored in git.
+- The crypto workspace UI no longer uses `v10` branding.
+- Published GitHub remote:
+  - `https://github.com/refatwashere/refatishere-app`

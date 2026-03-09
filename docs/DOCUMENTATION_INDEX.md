@@ -13,6 +13,7 @@ Current documentation is split into three layers:
 - [API Reference](API_REFERENCE.md)
 - [Deployment and Operations](DEPLOYMENT_AND_OPERATIONS.md)
 - [Static Site Deployment and Testing](STATIC_SITE_DEPLOYMENT_AND_TESTING.md)
+- [Current Status and Task List](CURRENT_STATUS_AND_TASK_LIST.md)
 - [InfinityFree Deployment](INFINITYFREE_DEPLOYMENT.md)
 - [Planner Operator Checklist](PLANNER_OPERATOR_CHECKLIST.md)
 - [Crypto App](CRYPTO_APP.md)
@@ -89,8 +90,15 @@ When adding a new document, place it by intent:
 ### Deployment work
 1. [DEPLOYMENT_AND_OPERATIONS.md](DEPLOYMENT_AND_OPERATIONS.md)
 2. [STATIC_SITE_DEPLOYMENT_AND_TESTING.md](STATIC_SITE_DEPLOYMENT_AND_TESTING.md)
-3. [INFINITYFREE_DEPLOYMENT.md](INFINITYFREE_DEPLOYMENT.md)
-4. [reference/SIDECAR_DEPLOYMENT_CONFIG.md](reference/SIDECAR_DEPLOYMENT_CONFIG.md)
+3. [CURRENT_STATUS_AND_TASK_LIST.md](CURRENT_STATUS_AND_TASK_LIST.md)
+4. [INFINITYFREE_DEPLOYMENT.md](INFINITYFREE_DEPLOYMENT.md)
+5. [reference/SIDECAR_DEPLOYMENT_CONFIG.md](reference/SIDECAR_DEPLOYMENT_CONFIG.md)
+
+### Current project status
+1. [../README.md](../README.md)
+2. [CURRENT_STATUS_AND_TASK_LIST.md](CURRENT_STATUS_AND_TASK_LIST.md)
+3. [CHANGELOG_PROJECT.md](CHANGELOG_PROJECT.md)
+4. [PROJECT_ORGANIZATION.md](PROJECT_ORGANIZATION.md)
 
 ### Historical validation or release context
 1. [release-history/PHASE0_BASELINE_FREEZE.md](release-history/PHASE0_BASELINE_FREEZE.md)

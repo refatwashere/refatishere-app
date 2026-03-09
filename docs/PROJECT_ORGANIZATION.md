@@ -1,6 +1,6 @@
 ﻿# Project Organization
 
-Last updated: 2026-03-07
+Last updated: 2026-03-09
 
 This document defines the active, reference, and archived structure of the repository.
 
@@ -14,6 +14,7 @@ This document defines the active, reference, and archived structure of the repos
 | Deploy helpers | `deploy/*`, `scripts/*`, `DEPLOY_RUNBOOK.md`, `DEPLOYMENT_STATUS.md` | Deployment and validation |
 | Canonical docs | `docs/*.md` | Current source of truth |
 | Vercel sidecar | `vercel-sidecar/*` | Active planner sidecar |
+| Repo metadata | `README.md`, `.gitignore`, `.gitattributes` | Repository entrypoint and source-control hygiene |
 
 ## Supporting Areas
 
@@ -40,6 +41,19 @@ This document defines the active, reference, and archived structure of the repos
 6. Runtime behavior changes must not depend on archived files.
 7. Root files should exist only when they are part of the deployable site/app surface or are top-level operator entry docs.
 8. Generated outputs and transient diagnostics should be ignored or written outside the active root surface.
+
+## Generated and Local-Only Areas
+
+- `output/*` is for generated deliverables such as exported PDFs.
+- `tmp/*` is for transient local work artifacts.
+- These paths are useful during development but are not part of the canonical source or deployable public surface unless explicitly promoted.
+
+## Current Root Site Notes
+
+- The active public root site is the personal/portfolio surface at repo root.
+- The crypto workspace remains an active sibling surface under `crypto/`.
+- `Tradejournal.html` is part of the active public root experience.
+- `mem.html` and `memory.html` are compatibility redirect pages and should remain in place.
 
 ## Placement Rules for New Files
 

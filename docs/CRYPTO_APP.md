@@ -1,6 +1,6 @@
 ﻿# Crypto App
 
-Last updated: 2026-03-07
+Last updated: 2026-03-09
 
 ## Scope
 
@@ -9,6 +9,8 @@ The crypto app is served from `crypto/crypto.html` and implemented with:
 - `crypto/src/js/core/app.js`
 - `crypto/src/css/main.css`
 - `crypto/backend/api.php` (proxy/backend actions)
+
+The current UI title is `Crypto Workspace`. The older `v10` label has been removed from the active frontend.
 
 ## Tabs and Functional Areas
 
